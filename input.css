@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+    --font-display: "Cormorant Garamond", serif;
+    --font-sans: "Inter", sans-serif;
+    --color-blum-pink: #f7e1e1;
+    --color-blum-rose: #e8b4b8;
+    --color-blum-blush: #f9eded;
+    --color-blum-ink: #2b1d1f;
+}
+
+@layer base {
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); color: var(--color-blum-ink); background: #fff; }
+}
+
+@layer components {
+    .font-display { font-family: var(--font-display); }
+
+    /* Subtle scroll-fade animation */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .9s ease, transform .9s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    /* Product card hover */
+    .product-card:hover .product-img { transform: scale(1.04); }
+    .product-img { transition: transform .8s ease; }
+
+    /* Underline link */
+    .nav-link { position: relative; }
+    .nav-link::after {
+        content: ""; position: absolute; left: 50%; bottom: -6px;
+        width: 0; height: 1px; background: currentColor;
+        transition: width .3s ease, left .3s ease;
+    }
+    .nav-link:hover::after { width: 100%; left: 0; }
+
+    /* Marquee for trust strip */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee { animation: marquee 30s linear infinite; }
+}
