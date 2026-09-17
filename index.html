@@ -6,8 +6,12 @@
     <title>Blum — Perfume de lujo para mujer</title>
     <meta name="description" content="Blum — Un viaje olfativo a través de flores raras, almizcles suaves y cítricos cálidos al sol. Perfumes de lujo creados para la mujer." />
 
-    <!-- Tailwind 4 (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Preload primer frame del hero (mobile o desktop según viewport) -->
+    <link rel="preload" as="image" href="assets/hero-frames/frame_001.webp" fetchpriority="high" media="(min-width: 768px)">
+    <link rel="preload" as="image" href="assets/hero-frames/mobile/frame-mobile_001.webp" fetchpriority="high" media="(max-width: 767px)">
+
+    <!-- Compiled Tailwind 4 — 24KB CSS, replaces ~300KB browser CDN runtime -->
+    <link rel="stylesheet" href="assets/tailwind.css">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,17 +92,18 @@
         </div>
     </header>
 
-    <!-- ============== HERO (scroll-scrub video) ============== -->
+    <!-- ============== HERO (scroll-scrub frames) ============== -->
     <section id="hero" class="relative bg-white" style="height: 200vh;">
         <div class="sticky top-0 h-screen w-full overflow-hidden">
-            <video id="hero-video"
-                   src="assets/01-HERO-VIDEO-5s-scroll-scrub-blum-rosa-damas.mp4"
-                   poster="assets/01-HERO-16x9-blum-rosa-damas-pastel-pink-hair.webp"
-                   width="1280" height="720"
-                   muted playsinline preload="auto"
-                   disablepictureinpicture
-                   class="absolute inset-0 w-full h-full object-cover">
-            </video>
+            <div class="absolute inset-0 overflow-hidden">
+                <canvas id="hero-canvas" width="1280" height="720"
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        style="min-width: 100%; min-height: 100%; width: 1280px; height: 720px;"></canvas>
+            </div>
+
+            <div id="hero-loading" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[5] font-display text-2xl text-blum-rose/60 select-none pointer-events-none">
+                <span id="hero-loading-pct">0%</span>
+            </div>
 
             <div id="hero-headline" class="absolute inset-0 z-10 pointer-events-none">
                 <div class="h-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col justify-center">
@@ -506,37 +511,106 @@
         }, { threshold: 0.12 });
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-        // ---- Hero scroll-scrub ----
+        // ---- Hero scroll-scrub via pre-loaded image frames ----
+        // Smooth because frames are pre-decoded WebP, drawn via GPU canvas drawImage.
+        // Lazy: only ±25 frames around current scroll position are kept in memory.
         const hero = document.getElementById('hero');
-        const video = document.getElementById('hero-video');
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
         const headline = document.getElementById('hero-headline');
         const cue = document.getElementById('hero-cue');
+        const loadingEl = document.getElementById('hero-loading');
+        const loadingPct = document.getElementById('hero-loading-pct');
 
-        let duration = 0;
-        video.addEventListener('loadedmetadata', () => {
-            duration = video.duration;
-            video.pause();
-            video.currentTime = 0;
-        });
+        const isMobile = window.matchMedia('(max-width: 767px)').matches;
+        const FRAME_COUNT = 150;
+        const FRAME_PATH = (i) => {
+            const name = isMobile ? `frame-mobile_${String(i + 1).padStart(3, '0')}` : `frame_${String(i + 1).padStart(3, '0')}`;
+            return `assets/hero-frames/${isMobile ? 'mobile/' : ''}${name}.webp`;
+        };
+        const FRAME_W = isMobile ? 640 : 1280;
+        const FRAME_H = isMobile ? 360 : 720;
+        canvas.width = FRAME_W;
+        canvas.height = FRAME_H;
 
+        const frames = new Array(FRAME_COUNT);
+        let lastTarget = -1;
+        let lastWindowCenter = -1;
+        const WINDOW = 25;
+
+        function loadFrame(i) {
+            if (frames[i] || i < 0 || i >= FRAME_COUNT) return;
+            const img = new Image();
+            img.decoding = 'async';
+            img.onload = () => {
+                frames[i] = img;
+                if (i === lastTarget) drawFrame(lastTarget);
+            };
+            img.onerror = () => {};
+            img.src = FRAME_PATH(i);
+        }
+        function ensureWindow(center) {
+            const lo = Math.max(0, center - WINDOW);
+            const hi = Math.min(FRAME_COUNT - 1, center + WINDOW);
+            for (let i = lo; i <= hi; i++) loadFrame(i);
+        }
+        function drawFrame(idx) {
+            for (let i = idx; i < FRAME_COUNT; i++) {
+                const img = frames[i];
+                if (img?.complete && img.naturalWidth) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    return;
+                }
+            }
+            for (let i = idx - 1; i >= 0; i--) {
+                const img = frames[i];
+                if (img?.complete && img.naturalWidth) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    return;
+                }
+            }
+        }
         function getProgress() {
             const rect = hero.getBoundingClientRect();
             const range = hero.offsetHeight - window.innerHeight;
             return range > 0 ? Math.max(0, Math.min(1, -rect.top / range)) : 0;
         }
-
         function scrub() {
             const p = getProgress();
             const opacity = Math.max(0, 1 - p * 1.8);
             headline.style.opacity = opacity;
             headline.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
             if (cue) cue.style.opacity = p < 0.02 ? '1' : '0';
-            if (duration) video.currentTime = p * duration;
+            const idx = Math.min(FRAME_COUNT - 1, Math.max(0, Math.floor(p * FRAME_COUNT)));
+            if (idx !== lastTarget) {
+                lastTarget = idx;
+                drawFrame(idx);
+                if (Math.abs(idx - lastWindowCenter) > WINDOW / 2) {
+                    lastWindowCenter = idx;
+                    ensureWindow(idx);
+                }
+            }
         }
-
+        let raf = null;
         window.addEventListener('scroll', () => {
-            requestAnimationFrame(scrub);
+            if (raf) return;
+            raf = requestAnimationFrame(() => { scrub(); raf = null; });
         }, { passive: true });
+
+        (async () => {
+            await loadFrame(0);
+            drawFrame(0);
+            scrub();
+            lastWindowCenter = 0;
+            ensureWindow(0);
+            if (loadingEl) loadingEl.style.opacity = '0';
+        })();
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            hero.style.height = '100vh';
+        }
     </script>
 </body>
 </html>
