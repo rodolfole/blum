@@ -11,11 +11,13 @@ A single-page ecommerce landing for **Blum**, a luxury women's perfume brand. Bu
 
 ## Run
 
+Requires [pnpm](https://pnpm.io) (declared in `package.json` via `packageManager`).
+
 ```bash
-npm install
-npm run build       # compile Tailwind
-npm run watch       # recompile on save
-open index.html     # or serve it
+pnpm install
+pnpm run build       # compile Tailwind once
+pnpm run watch       # recompile on save
+open index.html      # or serve it
 ```
 
 ## Docs
