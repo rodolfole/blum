@@ -88,22 +88,42 @@
         </div>
     </header>
 
-    <!-- ============== HERO ============== -->
-    <section class="relative w-full aspect-[16/9] hero-placeholder overflow-hidden">
-        <div class="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col justify-center">
-            <span class="text-xs tracking-[0.3em] uppercase text-blum-rose mb-6">New Collection · 2026</span>
-            <h1 class="font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.05] max-w-2xl">
-                An <em class="italic text-blum-rose">olfactory</em><br/>journey.
-            </h1>
-            <p class="mt-6 max-w-md text-base/relaxed text-blum-ink/70">
-                Rare florals, soft musks and sun-warmed citrus — composed by hand in Grasse, bottled for the woman who lingers.
-            </p>
-            <div class="mt-10 flex items-center gap-4">
-                <a href="#collection" class="inline-flex items-center gap-2 bg-blum-ink text-white text-sm px-7 py-3.5 rounded-full hover:bg-blum-rose transition">
-                    Shop the Collection
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </a>
-                <a href="#story" class="text-sm underline-offset-4 hover:underline">Our story →</a>
+    <!-- ============== HERO (scroll-scrub video) ============== -->
+    <section id="hero" class="relative bg-white" style="height: 200vh;">
+        <div class="sticky top-0 h-screen w-full overflow-hidden">
+            <video id="hero-video"
+                   src="assets/01-HERO-VIDEO-5s-scroll-scrub-blum-rosa-damas.mp4"
+                   poster="assets/01-HERO-16x9-blum-rosa-damas-pastel-pink-hair.webp"
+                   width="1280" height="720"
+                   muted playsinline preload="auto"
+                   disablepictureinpicture
+                   class="absolute inset-0 w-full h-full object-cover">
+            </video>
+
+            <div id="hero-headline" class="absolute inset-0 z-10 pointer-events-none">
+                <div class="h-full max-w-7xl mx-auto px-6 lg:px-10 flex flex-col justify-center">
+                    <div class="max-w-xl text-blum-ink pointer-events-auto" style="text-shadow: 0 1px 2px rgba(255,255,255,0.7);">
+                        <span class="text-xs tracking-[0.3em] uppercase text-blum-rose mb-6 block">New Collection · 2026</span>
+                        <h1 class="font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.05]">
+                            An <em class="italic text-blum-rose">olfactory</em><br/>journey.
+                        </h1>
+                        <p class="mt-6 max-w-md text-base/relaxed text-blum-ink/70">
+                            Rare florals, soft musks and sun-warmed citrus — composed by hand in Grasse, bottled for the woman who lingers.
+                        </p>
+                        <div class="mt-10 flex items-center gap-4">
+                            <a href="#collection" class="inline-flex items-center gap-2 bg-blum-ink text-white text-sm px-7 py-3.5 rounded-full hover:bg-blum-rose transition">
+                                Shop the Collection
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                            </a>
+                            <a href="#story" class="text-sm underline-offset-4 hover:underline">Our story →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="hero-cue" class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 text-xs tracking-widest uppercase text-blum-ink/70 flex flex-col items-center gap-2 pointer-events-none">
+                <span>Scroll to play</span>
+                <span class="w-px h-8 bg-blum-ink/40"></span>
             </div>
         </div>
     </section>
@@ -462,6 +482,38 @@
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
         }, { threshold: 0.12 });
         document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+        // ---- Hero scroll-scrub ----
+        const hero = document.getElementById('hero');
+        const video = document.getElementById('hero-video');
+        const headline = document.getElementById('hero-headline');
+        const cue = document.getElementById('hero-cue');
+
+        let duration = 0;
+        video.addEventListener('loadedmetadata', () => {
+            duration = video.duration;
+            video.pause();
+            video.currentTime = 0;
+        });
+
+        function getProgress() {
+            const rect = hero.getBoundingClientRect();
+            const range = hero.offsetHeight - window.innerHeight;
+            return range > 0 ? Math.max(0, Math.min(1, -rect.top / range)) : 0;
+        }
+
+        function scrub() {
+            const p = getProgress();
+            const opacity = Math.max(0, 1 - p * 1.8);
+            headline.style.opacity = opacity;
+            headline.style.pointerEvents = opacity < 0.05 ? 'none' : 'auto';
+            if (cue) cue.style.opacity = p < 0.02 ? '1' : '0';
+            if (duration) video.currentTime = p * duration;
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(scrub);
+        }, { passive: true });
     </script>
 </body>
 </html>
