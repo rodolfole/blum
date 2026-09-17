@@ -85,8 +85,9 @@
                 <button aria-label="Cuenta" class="hover:opacity-70 transition">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg>
                 </button>
-                <button aria-label="Carrito" class="relative hover:opacity-70 transition">
+                <button id="cart-trigger" aria-label="Carrito" class="relative hover:opacity-70 transition">
                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 1 1 6 0"/></svg>
+                    <span id="cart-count" class="absolute -top-1.5 -right-2 bg-blum-rose text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                 </button>
             </div>
         </div>
@@ -223,7 +224,7 @@
                 <a href="#" class="hidden md:inline-flex items-center gap-2 text-sm border border-blum-ink/20 rounded-full px-5 py-2.5 hover:bg-blum-blush transition">Ver todo</a>
             </div>
             <div class="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <article class="product-card reveal group">
+                <article class="product-card reveal group" data-product-id="rosa-damas" data-product-name="Rosa Damas" data-product-price="1899" data-product-image="assets/02-BESTSELLER-rosa-damas-pale-pink.webp">
                     <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-blum-blush border border-blum-pink/30">
                         <img src="assets/02-BESTSELLER-rosa-damas-pale-pink.webp" alt="Rosa Damas perfume bottle" class="product-img absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" width="1600" height="1600" />
                         <button aria-label="Wishlist" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur grid place-items-center hover:bg-white">
@@ -236,7 +237,7 @@
                             <h3 class="font-display text-xl">Rosa Damas</h3>
                             <p class="text-xs text-blum-ink/60 mt-1">★★★★★ (128)</p>
                         </div>
-                        <button aria-label="Add to cart" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
+                        <button data-add-to-cart aria-label="Añadir al carrito" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 1 1 6 0"/></svg>
                         </button>
                     </div>
@@ -245,7 +246,7 @@
                         <span class="text-xs text-blum-ink/40 line-through">$249</span>
                     </div>
                 </article>
-                <article class="product-card reveal group">
+                <article class="product-card reveal group" data-product-id="velvet-musk" data-product-name="Velvet Musk" data-product-price="2099" data-product-image="assets/02-BESTSELLER-velvet-musk-nude.webp">
                     <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-blum-pink/30 border border-blum-pink/30">
                         <img src="assets/02-BESTSELLER-velvet-musk-nude.webp" alt="Velvet Musk perfume bottle" class="product-img absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" width="1600" height="1600" />
                         <button aria-label="Wishlist" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur grid place-items-center hover:bg-white">
@@ -257,7 +258,7 @@
                             <h3 class="font-display text-xl">Velvet Musk</h3>
                             <p class="text-xs text-blum-ink/60 mt-1">★★★★★ (96)</p>
                         </div>
-                        <button aria-label="Add to cart" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
+                        <button data-add-to-cart aria-label="Añadir al carrito" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 1 1 6 0"/></svg>
                         </button>
                     </div>
@@ -266,7 +267,7 @@
                         <span class="text-xs text-blum-ink/40 line-through">$269</span>
                     </div>
                 </article>
-                <article class="product-card reveal group">
+                <article class="product-card reveal group" data-product-id="citrus-aurore" data-product-name="Citrus Aurore" data-product-price="1599" data-product-image="assets/02-BESTSELLER-citrus-aurore-pale-yellow.webp">
                     <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-blum-blush border border-blum-pink/30">
                         <img src="assets/02-BESTSELLER-citrus-aurore-pale-yellow.webp" alt="Citrus Aurore perfume bottle" class="product-img absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" width="1600" height="1600" />
                         <button aria-label="Wishlist" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur grid place-items-center hover:bg-white">
@@ -278,7 +279,7 @@
                             <h3 class="font-display text-xl">Citrus Aurore</h3>
                             <p class="text-xs text-blum-ink/60 mt-1">★★★★☆ (74)</p>
                         </div>
-                        <button aria-label="Add to cart" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
+                        <button data-add-to-cart aria-label="Añadir al carrito" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 1 1 6 0"/></svg>
                         </button>
                     </div>
@@ -287,7 +288,7 @@
                         <span class="text-xs text-blum-ink/40 line-through">$199</span>
                     </div>
                 </article>
-                <article class="product-card reveal group">
+                <article class="product-card reveal group" data-product-id="oud-lumiere" data-product-name="Oud Lumière" data-product-price="1499" data-product-image="assets/02-BESTSELLER-oud-lumiere-amber.webp">
                     <div class="relative aspect-[4/5] rounded-2xl overflow-hidden bg-blum-pink/30 border border-blum-pink/30">
                         <img src="assets/02-BESTSELLER-oud-lumiere-amber.webp" alt="Oud Lumière perfume bottle" class="product-img absolute inset-0 w-full h-full object-cover" loading="lazy" decoding="async" width="1600" height="1600" />
                         <button aria-label="Wishlist" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/80 backdrop-blur grid place-items-center hover:bg-white">
@@ -299,7 +300,7 @@
                             <h3 class="font-display text-xl">Oud Lumière</h3>
                             <p class="text-xs text-blum-ink/60 mt-1">★★★★★ (64)</p>
                         </div>
-                        <button aria-label="Add to cart" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
+                        <button data-add-to-cart aria-label="Añadir al carrito" class="w-9 h-9 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-ink hover:text-white transition">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 7h14l-1.5 11a2 2 0 0 1-2 1.8H8.5a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 1 1 6 0"/></svg>
                         </button>
                     </div>
@@ -494,6 +495,38 @@
         </div>
     </footer>
 
+    <!-- ============== CART DRAWER ============== -->
+    <div id="cart-drawer" class="fixed inset-0 z-[100]" aria-hidden="true" style="pointer-events:none;">
+        <div id="cart-backdrop" class="absolute inset-0 bg-black/40 transition-opacity duration-300" style="opacity:0;"></div>
+        <div id="cart-panel"
+             class="bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-out"
+             style="position:absolute; top:0; right:0; height:100%; width:100%; max-width:28rem; transform:translateX(100%);">
+            <div class="flex items-center justify-between p-6 border-b border-blum-pink/30 flex-shrink-0">
+                <h2 class="font-display text-2xl">Tu carrito</h2>
+                <button id="cart-close" aria-label="Cerrar carrito" class="w-9 h-9 rounded-full grid place-items-center hover:bg-blum-blush transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M6 18L18 6"/></svg>
+                </button>
+            </div>
+            <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+            <div id="cart-empty" class="hidden absolute inset-x-0 top-20 bottom-0 flex-col items-center justify-center p-6 text-center">
+                <p class="font-display text-2xl text-blum-ink/70">Tu carrito está vacío</p>
+                <p class="mt-3 text-sm text-blum-ink/50 max-w-xs mx-auto">Explora la colección y encuentra tu próxima fragancia.</p>
+            </div>
+            <div id="cart-footer" class="hidden p-6 border-t border-blum-pink/30 bg-blum-blush/40 flex-shrink-0">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-xs tracking-widest uppercase text-blum-ink/60">Subtotal</span>
+                    <span id="cart-subtotal" class="font-display text-2xl">₹0</span>
+                </div>
+                <a href="#" class="block w-full text-center bg-blum-ink text-white px-7 py-3.5 rounded-full text-sm hover:bg-blum-rose transition">
+                    Finalizar compra
+                </a>
+                <button id="cart-clear" class="mt-3 w-full text-center text-xs text-blum-ink/50 hover:text-blum-rose transition">
+                    Vaciar carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const header = document.getElementById('site-header');
         const onScroll = () => {
@@ -611,6 +644,139 @@
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             hero.style.height = '100vh';
         }
+
+        // ============== Cart: localStorage-backed, slide-in drawer ==============
+        const cart = {
+            items: [],
+            storageKey: 'blum-cart',
+
+            init() {
+                try { const saved = localStorage.getItem(this.storageKey); if (saved) this.items = JSON.parse(saved); } catch (e) {}
+                this.render();
+            },
+            save() { try { localStorage.setItem(this.storageKey, JSON.stringify(this.items)); } catch (e) {} this.render(); },
+            add(product) {
+                const existing = this.items.find(i => i.id === product.id);
+                if (existing) existing.qty += 1;
+                else this.items.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty: 1 });
+                this.save();
+                openCart();
+            },
+            remove(id) { this.items = this.items.filter(i => i.id !== id); this.save(); },
+            updateQty(id, delta) {
+                const item = this.items.find(i => i.id === id);
+                if (!item) return;
+                item.qty += delta;
+                if (item.qty <= 0) { this.remove(id); return; }
+                this.save();
+            },
+            clear() { this.items = []; this.save(); },
+            total() { return this.items.reduce((s, i) => s + i.price * i.qty, 0); },
+            count() { return this.items.reduce((s, i) => s + i.qty, 0); },
+
+            render() {
+                const badge = document.getElementById('cart-count');
+                const itemsEl = document.getElementById('cart-items');
+                const emptyEl = document.getElementById('cart-empty');
+                const footerEl = document.getElementById('cart-footer');
+                const subtotalEl = document.getElementById('cart-subtotal');
+                const count = this.count();
+                const total = this.total();
+
+                if (badge) {
+                    if (count > 0) { badge.textContent = count; badge.classList.remove('hidden'); }
+                    else { badge.classList.add('hidden'); }
+                }
+                if (subtotalEl) subtotalEl.textContent = `₹${total.toLocaleString('es-ES')}`;
+
+                const isEmpty = this.items.length === 0;
+                itemsEl?.classList.toggle('hidden', isEmpty);
+                emptyEl?.classList.toggle('hidden', !isEmpty);
+                if (emptyEl) emptyEl.style.display = isEmpty ? 'flex' : 'none';
+                footerEl?.classList.toggle('hidden', isEmpty);
+
+                if (itemsEl && !isEmpty) {
+                    itemsEl.innerHTML = this.items.map(item => `
+                        <div class="flex gap-4 items-start">
+                            <div class="w-20 h-20 rounded-xl overflow-hidden bg-blum-blush flex-shrink-0">
+                                <img src="${item.image}" alt="${item.name}" width="160" height="160" class="w-full h-full object-cover" loading="lazy" decoding="async">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-display text-lg truncate">${item.name}</h3>
+                                <p class="text-sm text-blum-ink/60">₹${item.price.toLocaleString('es-ES')}</p>
+                                <div class="mt-2 flex items-center gap-3">
+                                    <button data-cart-action="dec" data-product-id="${item.id}" class="w-7 h-7 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-blush transition text-sm" aria-label="Reducir cantidad">−</button>
+                                    <span class="text-sm tabular-nums">${item.qty}</span>
+                                    <button data-cart-action="inc" data-product-id="${item.id}" class="w-7 h-7 rounded-full border border-blum-ink/15 grid place-items-center hover:bg-blum-blush transition text-sm" aria-label="Aumentar cantidad">+</button>
+                                </div>
+                            </div>
+                            <button data-cart-action="remove" data-product-id="${item.id}" class="text-blum-ink/40 hover:text-blum-rose transition flex-shrink-0" aria-label="Eliminar ${item.name}">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6l12 12M6 18L18 6"/></svg>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+        };
+
+        const drawer = document.getElementById('cart-drawer');
+        const panel = document.getElementById('cart-panel');
+        const backdrop = document.getElementById('cart-backdrop');
+
+        function openCart() {
+            if (!drawer || !panel || !backdrop) return;
+            drawer.style.pointerEvents = 'auto';
+            drawer.setAttribute('aria-hidden', 'false');
+            requestAnimationFrame(() => {
+                backdrop.style.opacity = '1';
+                panel.style.transform = 'translateX(0)';
+            });
+            document.body.style.overflow = 'hidden';
+        }
+        function closeCart() {
+            if (!drawer || !panel || !backdrop) return;
+            backdrop.style.opacity = '0';
+            panel.style.transform = 'translateX(100%)';
+            drawer.setAttribute('aria-hidden', 'true');
+            setTimeout(() => {
+                drawer.style.pointerEvents = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        document.getElementById('cart-trigger')?.addEventListener('click', openCart);
+        document.getElementById('cart-close')?.addEventListener('click', closeCart);
+        document.getElementById('cart-backdrop')?.addEventListener('click', closeCart);
+        document.getElementById('cart-clear')?.addEventListener('click', () => cart.clear());
+
+        document.addEventListener('click', (e) => {
+            const addBtn = e.target.closest('[data-add-to-cart]');
+            if (addBtn) {
+                const card = addBtn.closest('[data-product-id]');
+                if (!card) return;
+                cart.add({
+                    id: card.dataset.productId,
+                    name: card.dataset.productName,
+                    price: parseInt(card.dataset.productPrice, 10),
+                    image: card.dataset.productImage,
+                });
+                return;
+            }
+            const actionBtn = e.target.closest('[data-cart-action]');
+            if (actionBtn) {
+                const id = actionBtn.dataset.productId;
+                const action = actionBtn.dataset.cartAction;
+                if (action === 'inc') cart.updateQty(id, 1);
+                else if (action === 'dec') cart.updateQty(id, -1);
+                else if (action === 'remove') cart.remove(id);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawer && drawer.getAttribute('aria-hidden') === 'false') closeCart();
+        });
+
+        cart.init();
     </script>
 </body>
 </html>
